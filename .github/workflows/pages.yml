@@ -1,0 +1,39 @@
+name: Deploy apresentação (GitHub Pages)
+
+# Deploy a cada push nesta branch (e permite rodar manualmente)
+on:
+  push:
+    branches: [ apresentacao-worldgym ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# uma execução por vez; não cancela um deploy em andamento
+concurrency:
+  group: pages-apresentacao
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact (deck estático na raiz)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
