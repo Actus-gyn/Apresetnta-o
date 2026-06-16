@@ -163,7 +163,8 @@ html, body {
 .hl-line {
   display: block;
   overflow: hidden;                 /* recorta o filho que sobe */
-  padding-bottom: 0.04em;           /* evita corte do baseline/letterspacing */
+  /* respiro p/ acentos altos (Ã, Á) e cedilha (Ç) não serem cortados pelo clip */
+  padding: 0.12em 0.04em 0.16em;
 }
 .hl-line > span {
   display: inline-block;
